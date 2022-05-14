@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--1.声明命名空间，即为此Mapper文件的位置-->
+<mapper namespace="com.study.mybatis.mapper.UserMapper">
+<!--    2.配置resultMap，避免数据库中的字段名与实体类的属性名不一致而产生的错误-->
+    <resultMap id="resultmap" type="user">
+<!--    3.id与result的区别在于前者为表中主键的配置-->
+        <id property="id" column="t_id"></id>
+        <result property="username" column="t_username"></result>
+        <result property="password" column="t_password"></result>
+    </resultMap>
+
+<!--    4.配置操作数据库的语句-->
+    <select id="findAllUser" resultMap="resultmap">
+        select * from t_user
+    </select>
+
+    <update id="updateInfoById" >
+        update t_user set t_username = #{username},t_password = #{password} where t_id = #{id}
+    </update>
+
+    <delete id="deleteInfoById">
+        delete from t_user where t_id = #{id}
+    </delete>
+
+    <insert id="addUserById" parameterType="user">
+        insert into t_user (t_username,t_password) values (#{username},#{password})
+    </insert>
+</mapper>

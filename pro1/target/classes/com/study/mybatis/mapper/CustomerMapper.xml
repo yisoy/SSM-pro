@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.CustomerMapper">
+<!--    若表中的列名可能存在不与实体类的属性同名的情况，可以使用resultMap配置相应关系，在后续的增删改操作中记得使用此resultMap-->
+    <resultMap id="resultmap" type="com.study.mybatis.pojo.Customer">
+<!--        此处的id property是值数据库中的主键列-->
+        <id property="id" column="t_id"/>
+<!--        此处为普通列名-->
+        <result property="username" column="t_username"/>
+        <result property="jobs" column="t_jobs"/>
+        <result property="phone" column="t_phone"/>
+    </resultMap>
+<!--    此处定义了mybatis所封装的查找的方法，除此之外也可定义增删改等方法-->
+<!--    resultType="po.Customer"指返回值类型-->
+<!--    id相当于定义的调用此处方法名-->
+    <select id="findCustomerById" resultMap="resultmap" resultType="com.study.mybatis.pojo.Customer">
+            select * from t_mybatis where t_id = #{id}
+    </select>
+
+    <select id="findAllCustomerById" resultMap="resultmap">
+        select * from t_mybatis
+    </select>
+
+<!--    <insert id="addCustomer" parameterType="po.Customer">-->
+<!--        insert into t_mybatis(t_id,t_username,t_jobs,t_phone) values(#{id},#{username},#{jobs},#{phone})-->
+<!--    </insert>-->
+<!--    由于主键t_id是自增长的，可以使用以下方式添加，若要自己设置t_id，则需要使用上面的形式-->
+    <insert id="addCustomer" parameterType="com.study.mybatis.pojo.Customer">
+        insert into t_mybatis(t_username,t_jobs,t_phone) values(#{username},#{jobs},#{phone})
+    </insert>
+
+    <update id="updateCustomer" parameterType="com.study.mybatis.pojo.Customer">
+        update t_mybatis set t_username=#{username},t_jobs=#{jobs},t_phone=#{phone} where t_id=#{id}
+    </update>
+</mapper>
